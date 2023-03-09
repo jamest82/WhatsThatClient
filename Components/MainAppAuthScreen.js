@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Text, View } from 'react-native';
-import ChatListScreen from './ChatListScreen';
-import ContactListScreen from './ContactListScreen';
-import AccountDetailsScreen from './AccountDetailsScreen';
+import ChatListNav from './ChatListNav';
+import ContactsNav from './ContactsNav';
+import AccountNav from './AccountNav';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -31,9 +31,9 @@ class MainAppAuthScreen extends Component{
     return(
             <Tab.Navigator
             initialRouteName='Chats'>
-                <Tab.Screen name="Chats" component={ChatListScreen} />
-                <Tab.Screen name="Contacts" component={ContactListScreen} />
-                <Tab.Screen name="Account" component={AccountDetailsScreen} />
+                <Tab.Screen name="Chats" component={ChatListNav} options={{ tabBarLabel: 'Chats' }}/>
+                <Tab.Screen name="Contacts" component={ContactsNav} options={{ tabBarLabel: 'Contacts' }}/>
+                <Tab.Screen name="Account" component={AccountNav} options={{ tabBarLabel: 'Account' }}/>
              </Tab.Navigator>
     );
   }

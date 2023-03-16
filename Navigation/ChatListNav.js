@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Button, Text, View } from 'react-native';
-import AllChatsScreen from './AllChatsScreen';
-import NewChatScreen from './NewChatScreen';
-import SingularChatScreen from './SingularChatScreen';
-import AddToChatScreen from './AddToChatScreen';
-import ChatDetailsScreen from './ChatDetailsScreen';
+import AllChatsScreen from '../Screens/AllChatsScreen';
+import NewChatScreen from '../Screens/NewChatScreen';
+import SingularChatScreen from '../Screens/SingularChatScreen';
+import AddToChatScreen from '../Screens/AddToChatScreen';
+import ChatDetailsScreen from '../Screens/ChatDetailsScreen';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 

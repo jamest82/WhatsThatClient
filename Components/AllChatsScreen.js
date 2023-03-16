@@ -13,6 +13,7 @@ export default class AllChatsScreen extends Component {
         this.onCardPress = this.onCardPress.bind(this)
       }
     
+
     onCardPress = async (id) => {
         console.log("Touched " + id)
         await AsyncStorage.setItem("whatsthat_chat_id", id)
@@ -20,11 +21,11 @@ export default class AllChatsScreen extends Component {
     }
 
     getData = async () => {
-    const value = await AsyncStorage.getItem('whatsthat_session_token');
+    const token = await AsyncStorage.getItem('whatsthat_session_token');
     return fetch('http://localhost:3333/api/1.0.0/chat',
     { 
         method: 'get',
-        headers: { 'X-Authorization': value }
+        headers: { 'X-Authorization': token }
     })
       .then((response) => response.json())
       .then((responseJson) => {

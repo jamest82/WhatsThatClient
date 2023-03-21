@@ -113,7 +113,7 @@ export default class SingleProfileScreen extends Component {
             if (parseInt(element.user_id) === parseInt(this.state.profileId)){
                 console.log('in blocked');
                 this.setState({
-                    Blocked: true
+                    blocked: true
                 })
             } 
         });
@@ -144,7 +144,7 @@ export default class SingleProfileScreen extends Component {
             this.props.navigation.navigate('Login')
         }
     }
-
+// Need to fix this part
     render(){
         if(this.state.isLoading){
             return(

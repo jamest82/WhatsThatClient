@@ -15,7 +15,7 @@ export default class ContactsScreen extends Component {
     onCardPress = async (id) => {
         console.log("Touched " + id)
         await AsyncStorage.setItem("whatsthat_contact_id", id)
-        this.props.navigation.navigate('SingleProfile')
+        this.props.navigation.navigate('ContactProfile')
     }
 
     getData = async () => {
@@ -48,9 +48,9 @@ export default class ContactsScreen extends Component {
         componentDidMount(){
             this.unsubscribe = this.props.navigation.addListener('focus', () => {
                 this.checkLoggedIn();
+                this.getData();
+                this.removeContactStorage();
             });
-            this.getData();
-            this.removeContactStorage();
           }
         
           componentWillUnmount(){

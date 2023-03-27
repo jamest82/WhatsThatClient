@@ -5,7 +5,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import ContactsScreen from '../Screens/ContactsScreen';
 import BlockedScreen from '../Screens/BlockedScreen';
-import SingleProfileScreen from '../Screens/SingleProfileScreen';
 import SearchScreen from '../Screens/SearchScreen';
 import ContactProfileScreen from '../Screens/ContactProfileScreen';
 import BlockedProfileScreen from '../Screens/BlockedProfileScreen';

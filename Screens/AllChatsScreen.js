@@ -1,98 +1,111 @@
+/* eslint-disable no-else-return */
+/* eslint-disable react/prop-types */
+
 import React, { Component } from 'react';
-import { FlatList, ActivityIndicator, Button, Text, View, TouchableOpacity } from 'react-native';
+import {
+  FlatList, ActivityIndicator, Button, Text, View, TouchableOpacity
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class AllChatsScreen extends Component {
-    constructor(props){
-        super(props);
-        this.state ={ 
-          isLoading: true,
-          chatData: []
-        }
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true,
+      chatData: []
+    };
 
-        this.onCardPress = this.onCardPress.bind(this)
-      }
-    
+    this.removeIdStorage = this.removeIdStorage.bind(this);
+    this.onCardPress = this.onCardPress.bind(this);
+  }
 
-    onCardPress = async (id) => {
-        console.log("Touched " + id)
-        await AsyncStorage.setItem("whatsthat_chat_id", id)
-        this.props.navigation.navigate('SingularChat')
+  componentDidMount() {
+    const { navigation } = this.props;
+    this.unsubscribe = navigation.addListener('focus', () => {
+      this.checkLoggedIn();
+    });
+    this.getData();
+    this.removeIdStorage();
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  checkLoggedIn = async () => {
+    const { navigation } = this.props;
+    const value = await AsyncStorage.getItem('whatsthat_session_token');
+    if (value == null) {
+      navigation.navigate('Login');
     }
+  };
 
-    getData = async () => {
+  onCardPress = async (id) => {
+    const { navigation } = this.props;
+    console.log(`Touched  ${id}`);
+    await AsyncStorage.setItem('whatsthat_chat_id', id);
+    navigation.navigate('SingularChat');
+  };
+
+  getData = async () => {
+    const { chatData } = this.state;
     const token = await AsyncStorage.getItem('whatsthat_session_token');
-    return fetch('http://localhost:3333/api/1.0.0/chat',
-    { 
+    return fetch(
+      'http://localhost:3333/api/1.0.0/chat',
+      {
         method: 'get',
         headers: { 'X-Authorization': token }
-    })
+      }
+    )
       .then((response) => response.json())
       .then((responseJson) => {
-    
-       this.setState({
+        this.setState({
           isLoading: false,
-          chatData: responseJson,
+          chatData: responseJson
         });
-    
-        console.log(this.state.chatData)
-    
+        console.log(chatData);
       })
-      .catch((error) =>{
+      .catch((error) => {
         console.log(error);
       });
-    }
+  };
 
-    removeIdStorage = async () => {
-        await AsyncStorage.removeItem('whatsthat_chat_id')
-    }
+  // eslint-disable-next-line class-methods-use-this
+  async removeIdStorage() {
+    await AsyncStorage.removeItem('whatsthat_chat_id');
+  }
 
-      componentDidMount(){
-        this.unsubscribe = this.props.navigation.addListener('focus', () => {
-            this.checkLoggedIn();
-        });
-        this.getData();
-        this.removeIdStorage();
-      }
-    
-      componentWillUnmount(){
-        this.unsubscribe();
-    }
-
-    checkLoggedIn = async () => {
-        const value = await AsyncStorage.getItem('whatsthat_session_token');
-        if (value == null) {
-            this.props.navigation.navigate('Login')
-        }
-    }
-
-    render(){
-        if(this.state.isLoading){
-            return(
+  render() {
+    const { isLoading, chatData } = this.state;
+    const { navigation } = this.props;
+    if (isLoading) {
+      return (
+        <View>
+          <ActivityIndicator />
+        </View>
+      );
+    } else {
+      return (
+        <View>
+          <FlatList
+            data={chatData}
+            renderItem={({ item }) => (
               <View>
-                <ActivityIndicator/>
+                <TouchableOpacity onPress={() => this.onCardPress(item.chat_id)}>
+                  <Text>{item.name}</Text>
+                  <Text>{item.last_message.message}</Text>
+                </TouchableOpacity>
               </View>
-            )
-          }else{
-      
-          return(
-            <View>
-              <FlatList
-                data={this.state.chatData}
-                renderItem={({item}) => (
-                  <View>
-                    <TouchableOpacity onPress={() => this.onCardPress(item.chat_id)}>
-                        <Text>{item.name}</Text>
-                        <Text>{item.last_message.message}</Text>
-                    </TouchableOpacity>
-                  </View>
-                )}
-                keyExtractor={({chat_id}, index) => chat_id}
-              />
-              <Button
-                title="New Chat"
-                onPress={() => this.props.navigation.navigate('NewChat')}
-                />
-            </View>
-    )}
-}}
+            )}
+            // eslint-disable-next-line camelcase
+            keyExtractor={({ chat_id }) => chat_id}
+          />
+          <Button
+            title="New Chat"
+            onPress={() => navigation.navigate('NewChat')}
+          />
+        </View>
+      );
+    }
+  }
+}

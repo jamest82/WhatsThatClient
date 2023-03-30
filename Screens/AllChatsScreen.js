@@ -23,9 +23,9 @@ export default class AllChatsScreen extends Component {
     const { navigation } = this.props;
     this.unsubscribe = navigation.addListener('focus', () => {
       this.checkLoggedIn();
+      this.getData();
+      this.removeIdStorage();
     });
-    this.getData();
-    this.removeIdStorage();
   }
 
   componentWillUnmount() {

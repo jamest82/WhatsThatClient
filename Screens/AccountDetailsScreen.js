@@ -13,7 +13,8 @@ export default class AccountDetailsScreen extends Component {
       isLoading: true,
       firstName: '',
       lastName: '',
-      email: ''
+      email: '',
+      userData: {}
     };
   }
 
@@ -50,6 +51,7 @@ export default class AccountDetailsScreen extends Component {
       .then((response) => response.json())
       .then((responseJson) => {
         this.setState({
+          userData: responseJson,
           firstName: responseJson.first_name,
           lastName: responseJson.last_name,
           email: responseJson.email,
@@ -64,7 +66,7 @@ export default class AccountDetailsScreen extends Component {
   render() {
     const { navigation } = this.props;
     const {
-      isLoading, firstName, lastName, email
+      isLoading, firstName, lastName, email, userData
     } = this.state;
     if (isLoading) {
       return (
@@ -86,11 +88,15 @@ export default class AccountDetailsScreen extends Component {
           </Text>
           <Button
             title="Update Profile"
-            //onPress={() => navigation.navigate('')}
+            onPress={() => navigation.navigate('UpdateAccount', { data: userData })}
           />
           <Button
             title="Camera"
             onPress={() => navigation.navigate('Camera')}
+          />
+          <Button
+            title="Log Out"
+            onPress={() => navigation.navigate('LogOut')}
           />
         </View>
       );

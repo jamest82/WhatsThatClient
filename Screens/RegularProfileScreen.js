@@ -2,7 +2,7 @@
 /* eslint-disable no-else-return */
 import React, { Component } from 'react';
 import {
-  Button, Text, View, ActivityIndicator
+  Button, Text, View, ActivityIndicator, Image
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -12,7 +12,8 @@ export default class RegularProfileScreen extends Component {
     this.state = {
       isLoading: true,
       firstName: '',
-      lastName: ''
+      lastName: '',
+      photo: ''
     };
   }
 
@@ -22,6 +23,7 @@ export default class RegularProfileScreen extends Component {
       this.checkLoggedIn();
     });
     this.getUserData();
+    this.getProfileImage();
   }
 
   componentWillUnmount() {
@@ -87,8 +89,32 @@ export default class RegularProfileScreen extends Component {
       });
   };
 
+  getProfileImage = async () => {
+    const id = await AsyncStorage.getItem('whatsthat_contact_id');
+    const token = await AsyncStorage.getItem('whatsthat_session_token');
+    fetch(`http://localhost:3333/api/1.0.0/user/${id}/photo`, {
+      method: 'GET',
+      headers: {
+        'X-Authorization': token
+      }
+    })
+      .then((res) => res.blob())
+      .then((resBlob) => {
+        let data = URL.createObjectURL(resBlob);
+        this.setState({
+          photo: data,
+          isLoading: false
+        });
+      })
+      .catch((err) => {
+        console.log('error', err);
+      });
+  };
+
   render() {
-    const { isLoading, firstName, lastName } = this.state;
+    const {
+      isLoading, firstName, lastName, photo
+    } = this.state;
     const { navigation } = this.props;
     if (isLoading) {
       return (
@@ -100,6 +126,15 @@ export default class RegularProfileScreen extends Component {
       return (
         <View>
           <Text> You are not Friends</Text>
+          <Image
+            source={{
+              uri: photo
+            }}
+            style={{
+              width: 100,
+              height: 100
+            }}
+          />
           <Text>
             {firstName}
           </Text>

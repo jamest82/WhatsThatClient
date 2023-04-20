@@ -82,6 +82,10 @@ export default class AllChatsScreen extends Component {
       return (
         <View>
           <ActivityIndicator />
+          <Button
+            title="New Chat"
+            onPress={() => navigation.navigate('NewChat')}
+          />
         </View>
       );
     } else {

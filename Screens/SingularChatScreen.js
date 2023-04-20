@@ -3,7 +3,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { Component } from 'react';
 import {
-  Button, Text, View, ActivityIndicator, FlatList, TextInput
+  Button, Text, View, ActivityIndicator, FlatList, TextInput, TouchableOpacity
 } from 'react-native';
 
 export default class SingularChatScreen extends Component {
@@ -22,9 +22,9 @@ export default class SingularChatScreen extends Component {
     const { navigation } = this.props;
     this.unsubscribe = navigation.addListener('focus', () => {
       this.checkLoggedIn();
-    });
-    this.getChatId(() => {
-      this.getMessageData();
+      this.getChatId(() => {
+        this.getMessageData();
+      });
     });
   }
 
@@ -114,6 +114,13 @@ export default class SingularChatScreen extends Component {
     });
   };
 
+  goToUpdate = async (id, message) => {
+    const { navigation } = this.props;
+    await AsyncStorage.setItem('whatsthat_message_id', id);
+    await AsyncStorage.setItem('whatsthat_message_body', message);
+    navigation.navigate('UpdateMessage');
+  };
+
   render() {
     const { navigation } = this.props;
     const {
@@ -146,10 +153,10 @@ export default class SingularChatScreen extends Component {
             inverted
             renderItem={({ item }) => (
               <View>
-                {/* <TouchableOpacity onPress={() => }> */}
-                <Text>{item.author.first_name}</Text>
-                <Text>{item.message}</Text>
-                {/* </TouchableOpacity> */}
+                <TouchableOpacity onPress={() => this.goToUpdate(item.message_id, item.message)}>
+                  <Text>{item.author.first_name}</Text>
+                  <Text>{item.message}</Text>
+                </TouchableOpacity>
               </View>
             )}
             // eslint-disable-next-line camelcase

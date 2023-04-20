@@ -7,6 +7,7 @@ import NewChatScreen from '../Screens/NewChatScreen';
 import SingularChatScreen from '../Screens/SingularChatScreen';
 import AddToChatScreen from '../Screens/AddToChatScreen';
 import ChatDetailsScreen from '../Screens/ChatDetailsScreen';
+import UpdateMessageScreen from '../Screens/UpdateMessageScreen';
 
 const ChatStack = createNativeStackNavigator();
 
@@ -20,6 +21,7 @@ export default class ChatListNav extends Component {
           <ChatStack.Screen name="SingularChat" component={SingularChatScreen} />
           <ChatStack.Screen name="AddToChat" component={AddToChatScreen} />
           <ChatStack.Screen name="ChatDetails" component={ChatDetailsScreen} />
+          <ChatStack.Screen name="UpdateMessage" component={UpdateMessageScreen} />
         </ChatStack.Navigator>
       </View>
     );

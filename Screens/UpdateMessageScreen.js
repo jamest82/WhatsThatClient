@@ -1,9 +1,11 @@
+/* eslint-disable react/no-unused-state */
+/* eslint-disable dot-notation */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-else-return */
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { Component } from 'react';
 import {
-  Button, Text, View, ActivityIndicator, FlatList, TextInput, TouchableOpacity
+  Button, Text, View, ActivityIndicator, TextInput
 } from 'react-native';
 
 export default class SingularChatScreen extends Component {
@@ -56,18 +58,16 @@ export default class SingularChatScreen extends Component {
     const {
       messageBody, newMessageBody, messageId
     } = this.state;
-    let data = {};
+    const data = {};
 
     if (newMessageBody !== messageBody) {
       data['message'] = newMessageBody;
     } else {
       this.setState({
+        // eslint-disable-next-line react/no-unused-state
         error: 'The message body is the same'
       });
     }
-
-    console.log(data);
-    console.log(this.state.error);
 
     return fetch(`http://localhost:3333/api/1.0.0/chat/${chatId}/message/${messageId}`, {
       method: 'PATCH',
@@ -81,6 +81,7 @@ export default class SingularChatScreen extends Component {
         if (response.status === 200) {
           console.log('message updated');
         } else {
+          // eslint-disable-next-line no-throw-literal
           throw 'Something went wrong';
         }
       })
@@ -108,6 +109,7 @@ export default class SingularChatScreen extends Component {
           console.log('message deleted');
           navigation.navigate('SingularChat');
         } else {
+          // eslint-disable-next-line no-throw-literal
           throw 'Something went wrong';
         }
       })

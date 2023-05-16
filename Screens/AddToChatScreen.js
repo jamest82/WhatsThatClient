@@ -3,7 +3,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { Component } from 'react';
 import {
-  Button, Text, View, ActivityIndicator, FlatList, TextInput
+  Button, Text, View, ActivityIndicator, FlatList
 } from 'react-native';
 
 export default class AddToChatScreen extends Component {
@@ -12,7 +12,6 @@ export default class AddToChatScreen extends Component {
     this.state = {
       isLoading: true,
       contactsData: [],
-      submitted: false,
       id: ''
     };
   }
@@ -103,7 +102,6 @@ export default class AddToChatScreen extends Component {
   render() {
     const { navigation } = this.props;
     const { contactsData, isLoading } = this.state;
-    console.log(contactsData);
     if (isLoading) {
       return (
         <View>
@@ -113,7 +111,11 @@ export default class AddToChatScreen extends Component {
     } else {
       return (
         <View>
-          <Text>Hello addtoChats</Text>
+          <Button
+            title="Return"
+            onPress={() => navigation.navigate('SingularChat')}
+          />
+          <Text>Add To Chat</Text>
           <FlatList
             data={contactsData}
             renderItem={({ item }) => (

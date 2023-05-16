@@ -126,7 +126,7 @@ export default class ContactProfileScreen extends Component {
     })
       .then((res) => res.blob())
       .then((resBlob) => {
-        let data = URL.createObjectURL(resBlob);
+        const data = URL.createObjectURL(resBlob);
         this.setState({
           photo: data,
           isLoading: false

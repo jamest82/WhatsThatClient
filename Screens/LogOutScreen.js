@@ -1,8 +1,7 @@
 /* eslint-disable no-else-return */
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import {
-  Button, Text, View } from 'react-native';
+import { Button, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class UpdateAccountScreen extends Component {
@@ -43,7 +42,8 @@ export default class UpdateAccountScreen extends Component {
         } else if (response.status === 401) {
           console.log('Unauthorized');
         } else {
-          throw 'Something went wrong'
+          // eslint-disable-next-line no-throw-literal
+          throw 'Something went wrong';
         }
       })
       .catch((err) => {

@@ -24,6 +24,10 @@ export default class SingularChatScreen extends Component {
       this.checkLoggedIn();
       this.getChatId(() => {
         this.getMessageData();
+        const interval = setInterval(() => {
+          this.getMessageData();
+        }, 1000);
+        return () => clearInterval(interval);
       });
     });
   }
@@ -82,7 +86,7 @@ export default class SingularChatScreen extends Component {
   };
 
   getMessageData = async () => {
-    const { id, messageData } = this.state;
+    const { id } = this.state;
     const token = await AsyncStorage.getItem('whatsthat_session_token');
     return fetch(
       `http://localhost:3333/api/1.0.0/chat/${id}`,
@@ -98,7 +102,6 @@ export default class SingularChatScreen extends Component {
           messageData: responseJson,
           submitted: false
         });
-        console.log(messageData);
       })
       .catch((error) => {
         console.log(error);

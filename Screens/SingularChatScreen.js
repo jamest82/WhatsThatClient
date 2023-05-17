@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-else-return */
+/* eslint-disable no-use-before-define */
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { Component } from 'react';
 import {
-  Button, Text, View, ActivityIndicator, FlatList, TextInput, TouchableOpacity
+  Button, Text, View, StyleSheet, ActivityIndicator, FlatList, TextInput, TouchableOpacity
 } from 'react-native';
 
 export default class SingularChatScreen extends Component {
@@ -137,12 +138,13 @@ export default class SingularChatScreen extends Component {
       );
     } else {
       return (
-        <View>
+        <View style={styles.container}>
           <View>
             <Button
               title="Add a User"
               onPress={() => navigation.navigate('AddToChat')}
             />
+            <View style={styles.spacer} />
             <Button
               title="Chat Details"
               onPress={() => navigation.navigate('ChatDetails')}
@@ -155,9 +157,9 @@ export default class SingularChatScreen extends Component {
             data={messageData.messages}
             inverted
             renderItem={({ item }) => (
-              <View>
+              <View style={styles.chats}>
                 <TouchableOpacity onPress={() => this.goToUpdate(item.message_id, item.message)}>
-                  <Text>{item.author.first_name}</Text>
+                  <Text style={styles.contactName}>{item.author.first_name}</Text>
                   <Text>{item.message}</Text>
                 </TouchableOpacity>
               </View>
@@ -181,3 +183,25 @@ export default class SingularChatScreen extends Component {
     }
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    height: 800,
+    backgroundColor: 'lightblue',
+    justifyContent: 'center'
+  },
+  chats: {
+    paddingBottom: 10,
+    paddingTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'left',
+    alignItems: 'left'
+  },
+  contactName: {
+    marginRight: 10,
+    fontWeight: 'bold'
+  },
+  spacer: {
+    marginTop: 5
+  }
+});

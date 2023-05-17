@@ -1,8 +1,9 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-else-return */
 import React, { Component } from 'react';
 import {
-  Button, Text, View, ActivityIndicator, Image
+  Button, Text, View, ActivityIndicator, Image, StyleSheet
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -100,39 +101,75 @@ export default class AccountDetailsScreen extends Component {
       );
     } else {
       return (
-        <View>
-          <Image
-            source={{
-              uri: photo
-            }}
-            style={{
-              width: 100,
-              height: 100
-            }}
-          />
-          <Text>
-            {firstName}
-          </Text>
-          <Text>
-            {lastName}
-          </Text>
-          <Text>
-            {email}
-          </Text>
-          <Button
-            title="Update Profile"
-            onPress={() => navigation.navigate('UpdateAccount', { data: userData })}
-          />
-          <Button
-            title="Camera"
-            onPress={() => navigation.navigate('Camera')}
-          />
-          <Button
-            title="Log Out"
-            onPress={() => navigation.navigate('LogOut')}
-          />
+        <View style={styles.container}>
+          <View>
+            <View style={styles.center}>
+              <Image
+                source={{
+                  uri: photo
+                }}
+                style={{
+                  width: 150,
+                  height: 150
+                }}
+              />
+            </View>
+            <View style={styles.contactCards}>
+              <Text style={styles.contactName}>
+                {firstName}
+              </Text>
+              <Text style={styles.contactName}>
+                {lastName}
+              </Text>
+            </View>
+            <View style={styles.contactCards}>
+              <Text>
+                {email}
+              </Text>
+            </View>
+            <Button
+              title="Update Profile"
+              onPress={() => navigation.navigate('UpdateAccount', { data: userData })}
+            />
+            <View style={styles.spacer} />
+            <Button
+              title="Camera"
+              onPress={() => navigation.navigate('Camera')}
+            />
+            <View style={styles.spacer} />
+            <Button
+              title="Log Out"
+              onPress={() => navigation.navigate('LogOut')}
+            />
+          </View>
         </View>
       );
     }
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    height: 800,
+    backgroundColor: 'lightblue',
+    justifyContent: 'center'
+  },
+  contactCards: {
+    paddingBottom: 10,
+    paddingTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  contactName: {
+    marginRight: 10,
+    fontWeight: 'bold'
+  },
+  spacer: {
+    marginTop: 5
+  },
+  center: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+});

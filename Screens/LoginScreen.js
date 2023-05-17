@@ -1,8 +1,9 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-else-return */
 import React, { Component } from 'react';
 import {
-  View, Text, TextInput, TouchableOpacity, Button
+  View, Text, TextInput, Button, StyleSheet
 } from 'react-native';
 import * as EmailValidator from 'email-validator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -125,40 +126,39 @@ export default class LoginScreen extends Component {
       email, submitted, password, error
     } = this.state;
     return (
-      <View>
+      <View style={styles.container}>
         <View>
-          <View>
-            <Text> Email:</Text>
+          <View style={styles.inputContainer}>
             <TextInput
-              placeholder="Enter email"
+              style={styles.input}
+              placeholder="Email"
               onChangeText={(varEmail) => this.setState({ email: varEmail })}
               defaultValue={email}
             />
 
             {submitted && !email
-            && <Text> *Email required</Text> }
+            && <Text style={styles.issue}> *Email required</Text> }
 
           </View>
-          <View>
-            <Text>Password:</Text>
+          <View style={styles.inputContainer}>
             <TextInput
-              placeholder="Enter password"
+              style={styles.input}
+              placeholder="Password"
               onChangeText={(varPass) => this.setState({ password: varPass })}
               defaultValue={password}
               secureTextEntry
             />
             {submitted && !password
-            && <Text>*Password Required</Text>}
+            && <Text style={styles.issue}>*Password Required</Text>}
           </View>
           <View>
-            <TouchableOpacity onPress={this.onPressButton}>
-              <View>
-                <Text>Login</Text>
-              </View>
-            </TouchableOpacity>
+            <Button
+              title="Login"
+              onPress={() => this.onPressButton()}
+            />
           </View>
           {error
-          && <Text>{error}</Text>}
+          && <Text style={styles.issue}>{error}</Text>}
           <View>
             <Button
               title="Need an account"
@@ -170,3 +170,30 @@ export default class LoginScreen extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: 'lightblue'
+  },
+  inputContainer: {
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 30,
+    width: '100%',
+    height: 45,
+    marginBottom: 20,
+    alignItems: 'center'
+  },
+  input: {
+    height: 50,
+    flex: 1,
+    padding: 10
+  },
+  issue: {
+    color: 'red'
+  }
+});

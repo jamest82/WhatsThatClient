@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-else-return */
 /* eslint-disable class-methods-use-this */
 import React, { Component } from 'react';
 import {
-  Button, Text, View, ActivityIndicator, FlatList, TouchableOpacity
+  Button, Text, View, ActivityIndicator, FlatList, TouchableOpacity, StyleSheet
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -82,13 +83,13 @@ export default class BlockedScreen extends Component {
       );
     } else {
       return (
-        <View>
+        <View style={styles.container}>
           <FlatList
             data={blockedData}
             renderItem={({ item }) => (
-              <View>
+              <View style={styles.contactCards}>
                 <TouchableOpacity onPress={() => this.onCardPress(item.user_id)}>
-                  <Text>{`${item.first_name} ${item.last_name}`}</Text>
+                  <Text style={styles.contactName}>{`${item.first_name} ${item.last_name}`}</Text>
                 </TouchableOpacity>
               </View>
             )}
@@ -99,6 +100,7 @@ export default class BlockedScreen extends Component {
             title="Contacts"
             onPress={() => navigation.navigate('ContactsList')}
           />
+          <View style={styles.spacer} />
           <Button
             title="Search"
             onPress={() => navigation.navigate('Search')}
@@ -108,3 +110,25 @@ export default class BlockedScreen extends Component {
     }
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    height: 800,
+    backgroundColor: 'lightblue',
+    justifyContent: 'center'
+  },
+  contactCards: {
+    paddingBottom: 10,
+    paddingTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  contactName: {
+    marginRight: 10,
+    fontWeight: 'bold'
+  },
+  spacer: {
+    marginTop: 5
+  }
+});

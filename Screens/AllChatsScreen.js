@@ -1,9 +1,10 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-else-return */
 /* eslint-disable react/prop-types */
 
 import React, { Component } from 'react';
 import {
-  FlatList, ActivityIndicator, Button, Text, View, TouchableOpacity
+  FlatList, ActivityIndicator, Button, Text, View, StyleSheet, TouchableOpacity
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -90,13 +91,17 @@ export default class AllChatsScreen extends Component {
       );
     } else {
       return (
-        <View>
+        <View style={styles.container}>
+          <Button
+            title="New Chat"
+            onPress={() => navigation.navigate('NewChat')}
+          />
           <FlatList
             data={chatData}
             renderItem={({ item }) => (
-              <View>
+              <View style={styles.chatCards}>
                 <TouchableOpacity onPress={() => this.onCardPress(item.chat_id)}>
-                  <Text>{item.name}</Text>
+                  <Text style={styles.chatName}>{item.name}</Text>
                   <Text>{item.last_message.message}</Text>
                 </TouchableOpacity>
               </View>
@@ -104,12 +109,23 @@ export default class AllChatsScreen extends Component {
             // eslint-disable-next-line camelcase
             keyExtractor={({ chat_id }) => chat_id}
           />
-          <Button
-            title="New Chat"
-            onPress={() => navigation.navigate('NewChat')}
-          />
         </View>
       );
     }
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    height: 800,
+    backgroundColor: 'lightblue',
+    justifyContent: 'center'
+  },
+  chatCards: {
+    paddingBottom: 10,
+    paddingTop: 10
+  },
+  chatName: {
+    fontWeight: 'bold'
+  }
+});

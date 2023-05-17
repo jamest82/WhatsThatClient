@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-else-return */
 import React, { Component } from 'react';
 import {
-  Button, Text, View, TextInput
+  Button, Text, View, TextInput, StyleSheet
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -71,19 +72,50 @@ export default class NewChatScreen extends Component {
   render() {
     const { chatName } = this.state;
     return (
-      <View>
-        <Text>Create Chat</Text>
-        <Text>Name your new chat</Text>
-        <TextInput
-          placeholder="New Chat"
-          onChangeText={(varChatName) => this.setState({ chatName: varChatName })}
-          defaultValue={chatName}
-        />
-        <Button
-          title="Create Chat"
-          onPress={() => this.createChat()}
-        />
+      <View style={styles.container}>
+        <View>
+          <Text>Create Chat</Text>
+          <Text>Name your new chat</Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="New Chat"
+              onChangeText={(varChatName) => this.setState({ chatName: varChatName })}
+              defaultValue={chatName}
+            />
+          </View>
+          <Button
+            style={styles.button}
+            title="Create Chat"
+            onPress={() => this.createChat()}
+          />
+        </View>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    height: 800,
+    backgroundColor: 'lightblue',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  inputContainer: {
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 30,
+    width: '100%',
+    height: 45,
+    alignItems: 'center'
+  },
+  input: {
+    height: 50,
+    padding: 10
+  },
+  button: {
+    marginTop: 10
+  }
+
+});

@@ -1,7 +1,8 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import {
-  View, Text, TextInput, TouchableOpacity, Button
+  View, Text, TextInput, Button, StyleSheet
 } from 'react-native';
 import * as EmailValidator from 'email-validator';
 
@@ -102,40 +103,36 @@ class SignUpScreen extends Component {
       email, password, firstName, lastName, submitted, error
     } = this.state;
     return (
-      <View>
+      <View style={styles.container}>
         <View>
-          <View>
-            <Text> First Name:</Text>
+          <View style={styles.inputContainer}>
             <TextInput
               placeholder="Enter first name"
               onChangeText={(varFName) => this.setState({ firstName: varFName })}
               defaultValue={firstName}
             />
             {submitted && !firstName
-            && <Text> *First name required</Text>}
+            && <Text style={styles.issue}> *First name required</Text>}
           </View>
-          <View>
-            <Text> Surname:</Text>
+          <View style={styles.inputContainer}>
             <TextInput
               placeholder="Enter surname"
               onChangeText={(varLName) => this.setState({ lastName: varLName })}
               defaultValue={lastName}
             />
             {submitted && !lastName
-            && <Text> *Surname required</Text>}
+            && <Text style={styles.issue}> *Surname required</Text>}
           </View>
-          <View>
-            <Text> Email:</Text>
+          <View style={styles.inputContainer}>
             <TextInput
               placeholder="Enter email"
               onChangeText={(varEmail) => this.setState({ email: varEmail })}
               defaultValue={email}
             />
             {submitted && !email
-            && <Text> *Email required</Text>}
+            && <Text style={styles.issue}> *Email required</Text>}
           </View>
-          <View>
-            <Text>Password:</Text>
+          <View style={styles.inputContainer}>
             <TextInput
               placeholder="Enter password"
               onChangeText={(varPass) => this.setState({ password: varPass })}
@@ -143,17 +140,16 @@ class SignUpScreen extends Component {
               secureTextEntry
             />
             {submitted && !password
-            && <Text>*Password Required</Text>}
+            && <Text style={styles.issue}>*Password Required</Text>}
           </View>
           <View>
-            <TouchableOpacity onPress={this.onPressButton}>
-              <View>
-                <Text>Register</Text>
-              </View>
-            </TouchableOpacity>
+            <Button
+              title="Register"
+              onPress={() => this.onPressButton()}
+            />
           </View>
           {error
-          && <Text>{error}</Text>}
+          && <Text style={styles.issue}>{error}</Text>}
           <View>
             <Button
               title="Already have an account?"
@@ -165,5 +161,32 @@ class SignUpScreen extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: 'lightblue'
+  },
+  inputContainer: {
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 30,
+    width: '100%',
+    height: 45,
+    marginBottom: 20,
+    alignItems: 'center'
+  },
+  input: {
+    height: 50,
+    flex: 1,
+    padding: 10
+  },
+  issue: {
+    color: 'red'
+  }
+});
 
 export default SignUpScreen;

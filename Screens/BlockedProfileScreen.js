@@ -1,8 +1,9 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-else-return */
 import React, { Component } from 'react';
 import {
-  Button, Text, View, ActivityIndicator, Image
+  Button, Text, View, ActivityIndicator, Image, StyleSheet
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -123,37 +124,71 @@ export default class ContactProfileScreen extends Component {
       );
     } else {
       return (
-        <View>
-          <Text> User is Blocked</Text>
-          <Image
-            source={{
-              uri: photo
-            }}
-            style={{
-              width: 100,
-              height: 100
-            }}
-          />
-          <Text>
-            {firstName}
-          </Text>
-          <Text>
-            {lastName}
-          </Text>
-          <Button
-            title="Unblock"
-            onPress={() => this.unblockContact()}
-          />
-          <Button
-            title="Contacts"
-            onPress={() => navigation.navigate('ContactsList')}
-          />
-          <Button
-            title="Search"
-            onPress={() => navigation.navigate('Search')}
-          />
+        <View style={styles.container}>
+          <View>
+            <View style={styles.center}>
+              <Text style={styles.contactName}> User is Blocked</Text>
+              <Image
+                source={{
+                  uri: photo
+                }}
+                style={{
+                  width: 100,
+                  height: 100
+                }}
+              />
+            </View>
+            <View style={styles.contactCards}>
+              <Text style={styles.contactName}>
+                {firstName}
+              </Text>
+              <Text style={styles.contactName}>
+                {lastName}
+              </Text>
+            </View>
+            <Button
+              title="Unblock"
+              onPress={() => this.unblockContact()}
+            />
+            <View style={styles.spacer} />
+            <Button
+              title="Contacts"
+              onPress={() => navigation.navigate('ContactsList')}
+            />
+            <View style={styles.spacer} />
+            <Button
+              title="Search"
+              onPress={() => navigation.navigate('Search')}
+            />
+          </View>
         </View>
       );
     }
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    height: 800,
+    backgroundColor: 'lightblue',
+    justifyContent: 'center'
+  },
+  contactCards: {
+    paddingBottom: 10,
+    paddingTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  contactName: {
+    marginRight: 10,
+    fontWeight: 'bold'
+  },
+  spacer: {
+    marginTop: 5
+  },
+  center: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+});

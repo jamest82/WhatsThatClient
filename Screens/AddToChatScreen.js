@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-else-return */
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { Component } from 'react';
 import {
-  Button, Text, View, ActivityIndicator, FlatList
+  Button, Text, View, ActivityIndicator, FlatList, StyleSheet
 } from 'react-native';
 
 export default class AddToChatScreen extends Component {
@@ -110,7 +111,7 @@ export default class AddToChatScreen extends Component {
       );
     } else {
       return (
-        <View>
+        <View style={styles.container}>
           <Button
             title="Return"
             onPress={() => navigation.navigate('SingularChat')}
@@ -119,8 +120,8 @@ export default class AddToChatScreen extends Component {
           <FlatList
             data={contactsData}
             renderItem={({ item }) => (
-              <View>
-                <Text>{`${item.first_name} ${item.last_name}`}</Text>
+              <View style={styles.contactCards}>
+                <Text style={styles.contactName}>{`${item.first_name} ${item.last_name}`}</Text>
                 <Button
                   title="+"
                   onPress={() => this.addUser(item.user_id)}
@@ -135,3 +136,22 @@ export default class AddToChatScreen extends Component {
     }
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    height: 800,
+    backgroundColor: 'lightblue',
+    justifyContent: 'center'
+  },
+  contactCards: {
+    paddingBottom: 10,
+    paddingTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  contactName: {
+    marginRight: 10,
+    fontWeight: 'bold'
+  }
+});

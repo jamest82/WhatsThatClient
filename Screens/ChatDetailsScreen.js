@@ -1,8 +1,9 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-else-return */
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import {
-  Button, Text, View, ActivityIndicator, FlatList, TextInput
+  Button, Text, View, ActivityIndicator, FlatList, TextInput, StyleSheet
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -142,24 +143,30 @@ export default class ChatDetailsScreen extends Component {
       );
     } else {
       return (
-        <View>
-          <Text>Chat Name:</Text>
-          <TextInput
-            placeholder={chatData.name}
-            onChangeText={(val) => this.setState({ chatName: val })}
-            value={chatName}
-          />
+        <View style={styles.container}>
+          <Text style={styles.title}>Chat Name:</Text>
+          <View style={styles.spacer} />
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder={chatData.name}
+              onChangeText={(val) => this.setState({ chatName: val })}
+              value={chatName}
+            />
+          </View>
           <Button
             title="Change Chat Name"
             onPress={() => this.changeName()}
           />
-          <Text>{`Created By: ${chatData.creator.first_name} ${chatData.creator.last_name}`}</Text>
-          <Text>Members:  </Text>
+          <View style={styles.spacer} />
+          <Text style={styles.contactCards}>{`Created By: ${chatData.creator.first_name} ${chatData.creator.last_name}`}</Text>
+          <View style={styles.spacer} />
+          <Text style={styles.contactCards}>Members:  </Text>
           <FlatList
             data={chatData.members}
             renderItem={({ item }) => (
-              <View>
-                <Text>{`${item.first_name} ${item.last_name}`}</Text>
+              <View style={styles.contactCards}>
+                <Text style={styles.title}>{`${item.first_name} ${item.last_name}`}</Text>
                 <Button
                   title="remove"
                   onPress={() => this.removeUser(item.user_id)}
@@ -174,3 +181,44 @@ export default class ChatDetailsScreen extends Component {
     }
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    height: 800,
+    backgroundColor: 'lightblue',
+    justifyContent: 'center'
+  },
+  contactCards: {
+    paddingBottom: 10,
+    paddingTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  inputContainer: {
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 30,
+    width: '100%',
+    height: 45,
+    marginBottom: 20,
+    alignItems: 'center'
+  },
+  input: {
+    height: 50,
+    width: 300,
+    padding: 10,
+    alignItems: 'center'
+  },
+  title: {
+    marginRight: 10,
+    fontWeight: 'bold'
+  },
+  spacer: {
+    marginTop: 5
+  },
+  center: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+});

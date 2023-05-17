@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import {
-  Button, Text, View, ActivityIndicator, FlatList, TouchableOpacity, TextInput
+  Button, Text, View, ActivityIndicator, StyleSheet, FlatList, TouchableOpacity, TextInput
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SwitchToggle from 'react-native-switch-toggle';
@@ -128,23 +128,27 @@ export default class SearchScreen extends Component {
       );
     } else {
       return (
-        <View>
+        <View style={styles.container}>
           <Text> Search </Text>
           <TextInput
             onChangeText={(varQuery) => this.setState({ query: varQuery })}
             value={query}
           />
-          <Text> Left: contacts Right: all</Text>
-          <SwitchToggle
-            switchOn={searchAll}
-            onPress={() => this.setState({ searchAll: !searchAll }, console.log(`switched ${searchAll}`))}
-          />
+          <View style={styles.search}>
+            <Text>Contacts</Text>
+            <SwitchToggle
+              switchOn={searchAll}
+              onPress={() => this.setState({ searchAll: !searchAll }, console.log(`switched ${searchAll}`))}
+            />
+            <Text>All</Text>
+          </View>
           <Button
             title="Search"
             onPress={() => this.checkType(() => {
               this.doSearch();
             })}
           />
+          <View style={styles.spacer} />
           {!(contactsData.length < limit)
             && (
             <Button
@@ -166,9 +170,9 @@ export default class SearchScreen extends Component {
           <FlatList
             data={contactsData}
             renderItem={({ item }) => (
-              <View>
+              <View style={styles.contactCards}>
                 <TouchableOpacity onPress={() => this.onCardPress(item.user_id)}>
-                  <Text>{`${item.given_name} ${item.family_name}`}</Text>
+                  <Text style={styles.contactName}>{`${item.given_name} ${item.family_name}`}</Text>
                 </TouchableOpacity>
               </View>
             )}
@@ -180,3 +184,29 @@ export default class SearchScreen extends Component {
     }
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    height: 800,
+    backgroundColor: 'lightblue',
+    justifyContent: 'center'
+  },
+  contactCards: {
+    paddingBottom: 10,
+    paddingTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  contactName: {
+    marginRight: 10,
+    fontWeight: 'bold'
+  },
+  spacer: {
+    marginTop: 5
+  },
+  search: {
+    flexDirection: 'row',
+    justifyContent: 'center'
+  }
+});

@@ -1,7 +1,10 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-else-return */
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import { Button, Text, View } from 'react-native';
+import {
+  Button, Text, View, StyleSheet
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class UpdateAccountScreen extends Component {
@@ -52,14 +55,39 @@ export default class UpdateAccountScreen extends Component {
   };
 
   render() {
+    const { navigation } = this.props;
     return (
-      <View>
-        <Text>Are you sure you want to log out?</Text>
+      <View style={styles.container}>
+        <Text style={styles.title}>Are you sure you want to log out?</Text>
         <Button
           title="Yes"
           onPress={() => this.logOut()}
+        />
+        <View style={styles.spacer} />
+        <Button
+          title="No"
+          onPress={() => navigation.navigate('AccountDetails')}
         />
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    height: 800,
+    backgroundColor: 'lightblue',
+    justifyContent: 'center'
+  },
+  title: {
+    marginRight: 10,
+    fontWeight: 'bold'
+  },
+  spacer: {
+    marginTop: 5
+  },
+  center: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+});

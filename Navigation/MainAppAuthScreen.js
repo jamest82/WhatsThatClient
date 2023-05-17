@@ -30,7 +30,7 @@ class MainAppAuthScreen extends Component {
 
   render() {
     return (
-      <Tab.Navigator initialRouteName="Chats">
+      <Tab.Navigator initialRouteName="Chats" screenOptions={{ headerShown: false }}>
         <Tab.Screen name="Chats" component={ChatListNav} options={{ tabBarLabel: 'Chats' }} />
         <Tab.Screen name="Contacts" component={ContactsNav} options={{ tabBarLabel: 'Contacts' }} />
         <Tab.Screen name="Account" component={AccountNav} options={{ tabBarLabel: 'Account' }} />

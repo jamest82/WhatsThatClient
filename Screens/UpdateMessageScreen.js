@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable react/no-unused-state */
 /* eslint-disable dot-notation */
 /* eslint-disable react/prop-types */
@@ -5,7 +6,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { Component } from 'react';
 import {
-  Button, Text, View, ActivityIndicator, TextInput
+  Button, Text, View, ActivityIndicator, TextInput, StyleSheet
 } from 'react-native';
 
 export default class SingularChatScreen extends Component {
@@ -119,7 +120,8 @@ export default class SingularChatScreen extends Component {
   };
 
   render() {
-    const { newMessageBody, messageId, isLoading } = this.state;
+    const { newMessageBody, isLoading } = this.state;
+    const { navigation } = this.props;
     if (isLoading) {
       return (
         <View>
@@ -128,23 +130,64 @@ export default class SingularChatScreen extends Component {
       );
     } else {
       return (
-        <View>
-          <Text>{messageId}</Text>
-          <Text>Update your message:</Text>
-          <TextInput
-            value={newMessageBody}
-            onChangeText={(val) => this.setState({ newMessageBody: val })}
-          />
+        <View style={styles.container}>
+          <Text style={styles.title}>Update your message:</Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              value={newMessageBody}
+              onChangeText={(val) => this.setState({ newMessageBody: val })}
+            />
+          </View>
           <Button
             title="Update"
             onPress={() => this.updateMessage()}
           />
+          <View style={styles.spacer} />
           <Button
             title="Delete Message"
             onPress={() => this.deleteMessage()}
+          />
+          <View style={styles.spacer} />
+          <Button
+            title="Return to chats"
+            onPress={() => navigation.navigate('SingularChat')}
           />
         </View>
       );
     }
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    height: 800,
+    backgroundColor: 'lightblue',
+    justifyContent: 'center'
+  },
+  inputContainer: {
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 30,
+    width: '100%',
+    height: 45,
+    marginBottom: 20,
+    alignItems: 'center'
+  },
+  input: {
+    height: 50,
+    width: 300,
+    padding: 10,
+    alignItems: 'center'
+  },
+  issue: {
+    color: 'red'
+  },
+  title: {
+    marginRight: 10,
+    fontWeight: 'bold'
+  },
+  spacer: {
+    marginTop: 5
+  }
+});

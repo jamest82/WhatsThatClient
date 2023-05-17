@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-else-return */
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
@@ -44,7 +45,7 @@ export default class SearchScreen extends Component {
     const { navigation } = this.props;
     console.log(`Touched ${id}`);
     await AsyncStorage.setItem('whatsthat_contact_id', id);
-    navigation.navigate('ContactProfile');
+    navigation.navigate('RegularProfile');
   };
 
   nextPage = async (done) => {
